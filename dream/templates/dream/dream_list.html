@@ -23,17 +23,15 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">{{dream.name}}</h5>
                                     <!-- Product producer-->
-                                    <h5 class="fw-bolder">{{dream.producer}}</h5>
+                                    <a>{{dream.producer}}<br></a>
                                     <!-- Product price-->
                                     ${{dream.price}}
                                 </div>
                             </div>
                             <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{dream.get_absolute_url}}">View options</a></div>
-                            </div>
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="margin:auto">
+                                <div class="text-center" style="display:inline-block"><a class="btn btn-outline-dark mt-auto" href="{{dream.get_absolute_url}}">View options</a></div>
+                                <div class="text-center" style="display:inline-block"><a class="btn btn-outline-dark mt-auto" href="#"><i class="bi bi-cart-fill"></i></a></div>
                             </div>
                         </div>
                     </div>
