@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+# OAuth 클라이언트 ID & 비밀번호
+# 990203830873-pgvqfph831atmnekjbl54kkuslme7qog.apps.googleusercontent.com
+# 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
 
 from pathlib import Path
 import os
@@ -40,8 +43,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+LOGIN_REDIRECT_URL = '/dream/'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
