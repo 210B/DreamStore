@@ -25,3 +25,5 @@ class ThemeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Theme)
+
+
