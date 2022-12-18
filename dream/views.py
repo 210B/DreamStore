@@ -10,9 +10,22 @@ from django.db.models import Q
 # Create your views here.
 
 
+#class HomeList(ListView):
+#    model = Dream
+#    ordering = '-pk'
+#    paginate_by = 3
+
+#    def get_context_data(self, *, object_list=None, **kwargs):
+#        context = super(HomeList, self).get_context_data()
+#        context['producer'] = Producer.objects.all()
+#        context['no_producer_dream_count'] = Dream.objects.filter(producer=None).count
+#        return context
+
+
 class DreamList(ListView):
     model = Dream
     ordering = '-pk'
+    paginate_by = 9
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(DreamList, self).get_context_data()
@@ -51,6 +64,17 @@ class DreamDetail(DetailView):
     # 매개변수 모델명 : dream
 
 
+def producer_page(request,slug):
+    producer = Producer.objects.get(slug=slug)
+    dream_list = Dream.objects.filter(producer=producer)
+
+    return render(request, 'dream/dream_list.html', {
+        'producer': producer,
+        'dream_list': dream_list,
+        'producers': Producer.objects.all(),
+    })
+
+
 def theme_page(request, slug):
     theme = Theme.objects.get(slug=slug)
     dream_list = theme.dream_set.all()
@@ -59,3 +83,11 @@ def theme_page(request, slug):
         'dream_list': dream_list,
         'no_producer_dream_count': Dream.objects.filter(producer=None).count
     })
+
+
+def home_page(request):
+    dream_list = Dream.objects.all().order_by('-pk')[:3]
+    context = {
+        'dream_list':dream_list,
+    }
+    return render(request, 'dream/dream_list.html', context)

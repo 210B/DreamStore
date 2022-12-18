@@ -24,18 +24,22 @@
                         <h1 class="display-10 fw-bolder">{{dream.name}}</h1>
                         <div class="fs-5 mb-5">
                             <br>
-                            <span>${{dream.producer}}</span>
+                            <a href="{{dream.producer.get_absolute_url}}"><span>{{dream.producer}}</span></a>
                         </div>
                         <div class="fs-5 mb-5">
                             <span>${{dream.price}}</span>
                         </div>
                         <p class="lead">{{dream.description}}</p>
-                        <div class="d-flex">
+                        <div class="d-flex justify-content-around">
+                            <div></div>
+                            <div></div>
                             <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
                             <button class="btn btn-outline-dark flex-shrink-0" type="button">
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to cart
                             </button>
+                            <div></div>
+                            <div></div>
                         </div>
                     </div>
                 </div>

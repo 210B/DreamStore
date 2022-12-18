@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     path('', views.DreamList.as_view()),
     path('<int:pk>/', views.DreamDetail.as_view()),
+    path('home', views.home_page),
     path('search/<str:q>/', views.DreamSearch.as_view()),
     path('theme/<str:slug>/', views.theme_page),
+    path('producer/<str:slug>/', views.producer_page),
 ]
