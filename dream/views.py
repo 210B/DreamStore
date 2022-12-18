@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Dream, Producer, Theme, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
@@ -88,7 +89,7 @@ class DreamCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
                     self.object.themes.add(theme)
             return response
         else:
-            return redirect('/blog/')
+            return redirect('/dream/')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(DreamCreate, self).get_context_data()
@@ -153,6 +154,16 @@ def new_comment(request,pk):
             return redirect(dream.get_absolute_url())
     else: # 로그인 안한 사용자
         raise PermissionDenied
+
+
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    dream = comment.dream
+    if request.user.is_authenticated and request.user == comment.author:
+        comment.delete()
+        return redirect(dream.get_absolute_url())
+    else:
+        PermissionDenied
 
 
 class CommentUpdate(LoginRequiredMixin,UpdateView):

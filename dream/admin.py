@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Distributor, Theme, Producer, Dream, CEO
+from .models import Distributor, Theme, Producer, Dream, CEO, Comment
 
 # Register your models here.
 
@@ -25,5 +25,8 @@ class ThemeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Theme)
+
+
+admin.site.register(Comment)
 
 

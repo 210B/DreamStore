@@ -45,7 +45,7 @@
                             searchDream();
                         }
                     });
-                </script>
+                    </script>
                     <form class="d-flex">
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-cart-fill me-1"></i>
@@ -53,6 +53,27 @@
                             <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                         </button>
                     </form>
+                    <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if user.socialaccount_set.all.0.get_avatar_url %}
+                            <img class="rounded-circle mr-3" src="{{user.socialaccount_set.all.0.get_avatar_url}}" width="25px">
+                            {% else %}
+                            <img class="rounded-circle mr-3" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" width="25px">
+                            {% endif %}
+                            {{user.username}}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/accounts/logout/">LogOut</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">LogIn</a>
+                    </li>
+                    {% endif %}
+                </ul>
                 </div>
             </div>
         </nav>

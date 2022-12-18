@@ -6,13 +6,19 @@
 {% endblock %}
 
 {% block main_area %}
-    <h1>Edit Comment</h1>
-    <hr/>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="gx-4 gx-lg-5 align-items-center">
+                <h1>Edit Comment</h1>
+                <hr/>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
 
-            {{form | crispy}}
+                    {{form | crispy}}
 
-        <button type="submit" class="btn btn-outline-dark mt-auto float-right">Submit</button>
-    </form>
+                    <button type="submit" class="btn btn-outline-dark mt-auto float-right">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
 {% endblock %}
