@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Dream, Producer
+from .models import Dream, Producer, Theme, Tag
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
@@ -28,7 +28,7 @@ class DreamSearch(DreamList):
 
     def get_queryset(self):
         q = self.kwargs['q']
-        dream_list = Dream.objects.filter(Q(name__contains=q)).distinct()
+        dream_list = Dream.objects.filter(Q(name__contains=q) | Q(tags__name__contains=q) | Q(producer__name__contains=q) | Q(themes__name__contains=q)).distinct()
         return dream_list
 
     def get_context_data(self, *, object_list=None, **kwargs):
