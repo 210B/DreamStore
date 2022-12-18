@@ -1,0 +1,29 @@
+{% extends 'dream/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+    Update Product - Dream
+{% endblock %}
+
+{% block main_area %}
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="gx-4 gx-lg-5 align-items-center">
+                <h1>Update Dream</h1>
+                <hr/>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {{form | crispy}}
+                    <div id="div_id_themes_str">
+                        <label for="id_themes">Tags:</label>
+                        <input id="id_themes" type="text" name="themes_str" value="{{themes_str_default}}"
+                            class="textinput textInput form-control">
+                    </div>
+                    <hr/>
+                    <button type="submit" class="btn btn-outline-dark mt-auto float-right">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

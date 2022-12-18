@@ -1,6 +1,11 @@
 {% extends 'dream/base.html' %}
 
 {% block main_area %}
+    {% if user.is_superuser %}
+        <a class="btn btn-outline-dark mt-auto float-right" href="/dream/update_dream/{{dream.pk}}/" role="button">
+            <i class="fas fa-pen">Edit Product</i>
+        </a>
+    {% endif %}
     <!-- Product section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">

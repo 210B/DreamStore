@@ -9,6 +9,13 @@
                 </div>
             </div>
         </header>
+        {% if user.is_authenticated %}
+            {% if user.is_superuser or user.is_staff %}
+                <div class="text-center float-right" style="display:inline-block">
+                    <a class="btn btn-outline-dark mt-auto" href="/dream/create_dream/">New Product</a>
+                </div>
+            {% endif %}
+        {% endif %}
         <!-- Section-->
         {% if dream_list.exists %}
         <section class="py-5">

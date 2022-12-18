@@ -8,4 +8,6 @@ urlpatterns = [
     path('search/<str:q>/', views.DreamSearch.as_view()),
     path('theme/<str:slug>/', views.theme_page),
     path('producer/<str:slug>/', views.producer_page),
+    path('update_dream/<int:pk>/', views.DreamUpdate.as_view()),
+    path('create_dream/', views.DreamCreate.as_view()),
 ]
