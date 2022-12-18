@@ -25,7 +25,13 @@
                         {% endif %}
                     </div>
                     <div class="col-md-6">
-                        <div class="small mb-1">SKU: BST-498</div>
+                        <div style="float_left">
+                            <div class="small mb-1" style="float_left">SKU: BST-498</div>
+                            <div class="small mb-1" style="float_left">
+                                <a href="{{dream.distributor.get_absolute_url}}">{{dream.distributor}}</a>
+                            </div>
+                        </div>
+
                         <br>
                         <h1 class="display-10 fw-bolder">{{dream.name}}</h1>
                         <div class="fs-5 mb-5">

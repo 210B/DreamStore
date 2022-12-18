@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Dream, Producer, Theme, Comment
+from .models import Dream, Producer, Theme, Comment, Distributor
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
@@ -176,7 +176,7 @@ class CommentUpdate(LoginRequiredMixin,UpdateView):
             return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
 
 
-def producer_page(request,slug):
+def producer_page(request, slug):
     producer = Producer.objects.get(slug=slug)
     dream_list = Dream.objects.filter(producer=producer)
 
@@ -184,6 +184,17 @@ def producer_page(request,slug):
         'producer': producer,
         'dream_list': dream_list,
         'producers': Producer.objects.all(),
+    })
+
+
+def distributor_page(request, slug):
+    distributor = Distributor.objects.get(slug=slug)
+    dream_list = Dream.objects.filter(distributor=distributor)
+
+    return render(request, 'dream/dream_list.html', {
+        'distributor': distributor,
+        'dream_list': dream_list,
+        'distributors': Distributor.objects.all(),
     })
 
 

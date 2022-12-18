@@ -13,6 +13,10 @@ admin.site.register(CEO)
 admin.site.register(Distributor)
 
 
+class DistributorAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug' : ('name',)}
+
+
 class ProducerAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug' : ('name',)}
 
