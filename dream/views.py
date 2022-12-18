@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Dream, Producer, Theme
+from .models import Dream, Producer, Theme, Comment
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
+from .forms import CommentForm
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 # Create your views here.
@@ -130,14 +131,38 @@ class DreamDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(DreamDetail, self).get_context_data()
         context['producer'] = Producer.objects.all()
-        context['no_producer_dream_count'] = Dream.objects.filter(producer=None).count
+        context['comment_form'] = CommentForm
         return context
 
     # 템플릿은 모델명_detail.html : dream_detail.html
     # 매개변수 모델명 : dream
 
 
+def new_comment(request,pk):
+    if request.user.is_authenticated:
+        dream = get_object_or_404(Dream,pk=pk)
+        if request.method == 'POST':
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.dream = dream
+                comment.author = request.user
+                comment.save()
+                return redirect(comment.get_absolute_url())
+        else: # GET
+            return redirect(dream.get_absolute_url())
+    else: # 로그인 안한 사용자
+        raise PermissionDenied
 
+
+class CommentUpdate(LoginRequiredMixin,UpdateView):
+    model = Comment
+    form_class = CommentForm
+    # 템플릿 : comment_form
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user == self.get_object().author:
+            return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
 
 
 def producer_page(request,slug):

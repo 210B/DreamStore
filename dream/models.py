@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 import os
 
@@ -65,3 +66,18 @@ class Dream(models.Model):
 
     def get_absolute_url(self):
         return f'/dream/{self.pk}/'
+
+
+class Comment(models.Model):
+    dream = models.ForeignKey(Dream, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.author} : {self.content}'
+
+    def get_absolute_url(self):
+        return f'{self.dream.get_absolute_url()}#comment-{self.pk}'
+
