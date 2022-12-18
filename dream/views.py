@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Dream, Producer, Theme, Tag
+from .models import Dream, Producer, Theme
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
@@ -28,7 +28,7 @@ class DreamSearch(DreamList):
 
     def get_queryset(self):
         q = self.kwargs['q']
-        dream_list = Dream.objects.filter(Q(name__contains=q) | Q(tags__name__contains=q) | Q(producer__name__contains=q) | Q(themes__name__contains=q)).distinct()
+        dream_list = Dream.objects.filter(Q(name__contains=q) | Q(producer__name__contains=q) | Q(themes__name__contains=q)).distinct()
         return dream_list
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -49,3 +49,13 @@ class DreamDetail(DetailView):
 
     # 템플릿은 모델명_detail.html : dream_detail.html
     # 매개변수 모델명 : dream
+
+
+def theme_page(request, slug):
+    theme = Theme.objects.get(slug=slug)
+    dream_list = theme.dream_set.all()
+    return render(request, 'dream/dream_list.html', {
+        'theme': theme,
+        'dream_list': dream_list,
+        'no_producer_dream_count': Dream.objects.filter(producer=None).count
+    })

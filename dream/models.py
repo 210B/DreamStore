@@ -3,16 +3,6 @@ import os
 
 # Create your models here.
 
-class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return f'/dream/tag/{self.slug}/'
-
 
 class Theme(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -67,7 +57,6 @@ class Dream(models.Model):
     distributor = models.ForeignKey(Distributor, null=True, on_delete=models.SET_NULL)
     producer = models.ForeignKey(Producer, null=True, blank=True, on_delete=models.SET_NULL)
     themes = models.ManyToManyField(Theme, blank=True)
-    tags = models.ManyToManyField(Tag, blank=True)
 
     soldOut = models.BooleanField(default=False)
 

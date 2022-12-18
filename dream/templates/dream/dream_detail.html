@@ -5,11 +5,25 @@
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{dream.product_image.url}}" alt="{{dream.name}}의 head_image" /></div>
+                    <div class="col-md-6">
+                        <img class="card-img-top mb-5 mb-md-0" src="{{dream.product_image.url}}" alt="{{dream.name}}의 head_image" />
+                        {% if dream.themes.exists %}
+                            <i class="fas fa-tag"></i>
+                            {% for t in dream.themes.iterator %}
+                                <span class="badge badge-pill badge-light">
+                                    <a href="{{t.get_absolute_url}}">
+                                        {{t}}
+                                    </a>
+                                </span>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                     <div class="col-md-6">
                         <div class="small mb-1">SKU: BST-498</div>
+                        <br>
                         <h1 class="display-10 fw-bolder">{{dream.name}}</h1>
                         <div class="fs-5 mb-5">
+                            <br>
                             <span>${{dream.producer}}</span>
                         </div>
                         <div class="fs-5 mb-5">
