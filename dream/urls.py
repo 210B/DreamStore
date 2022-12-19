@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.DreamList.as_view()),
     path('<int:pk>/', views.DreamDetail.as_view()),
-    path('home', views.home_page),
+    path('home/', views.home_page),
     path('search/<str:q>/', views.DreamSearch.as_view()),
     path('theme/<str:slug>/', views.theme_page),
     path('producer/<str:slug>/', views.producer_page),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('<int:pk>/new_comment/', views.new_comment),
     path('update_comment/<int:pk>/', views.CommentUpdate.as_view()),
     path('delete_comment/<int:pk>/', views.delete_comment),
+    path('my_page/', views.my_page)
 ]

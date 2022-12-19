@@ -2,11 +2,13 @@
 {% load crispy_forms_tags %}
 
 {% block main_area %}
-    {% if user.is_superuser %}
+    <div class="container px-4 px-lg-5 my-5">
+        {% if user.is_superuser %}
         <a class="btn btn-outline-dark mt-auto float-right" href="/dream/update_dream/{{dream.pk}}/" role="button">
             <i class="fas fa-pen">Edit Product</i>
         </a>
-    {% endif %}
+        {% endif %}
+    </div>
     <!-- Product section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
@@ -28,7 +30,7 @@
                         <div style="float_left">
                             <div class="small mb-1" style="float_left">SKU: BST-498</div>
                             <div class="small mb-1" style="float_left">
-                                <a href="{{dream.distributor.get_absolute_url}}">{{dream.distributor}}</a>
+                                <a href="{{dream.distributor.get_absolute_url}}" style="color:black">{{dream.distributor}}</a>
                             </div>
                         </div>
 
@@ -36,7 +38,7 @@
                         <h1 class="display-10 fw-bolder">{{dream.name}}</h1>
                         <div class="fs-5 mb-5">
                             <br>
-                            <a href="{{dream.producer.get_absolute_url}}"><span>{{dream.producer}}</span></a>
+                            <a href="{{dream.producer.get_absolute_url}}" style="color:black"><span>{{dream.producer}}</span></a>
                         </div>
                         <div class="fs-5 mb-5">
                             <span>${{dream.price}}</span>
@@ -57,112 +59,40 @@
                 </div>
             </div>
         </section>
+        {% if related_list.exists %}
+
         <!-- Related items section-->
         <section class="py-5 bg-light">
             <div class="container px-4 px-lg-5 mt-5">
-                <h2 class="fw-bolder mb-4">Related products</h2>
+                <h2 class="fw-bolder mb-4">Other Products</h2>
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    {% for d in related_list.iterator %}
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
+                            <img class="card-img-top" src="{{d.product_image.url}}" alt="{{d}}의 product_image" />                            <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <!-- Product name-->
-                                    <h5 class="fw-bolder">Fancy Product</h5>
+                                    <h5 class="fw-bolder">{{d.name}}</h5>
+                                    <!-- Product producer-->
+                                    <a href="{{d.producer.get_absolute_url}}">{{d.producer}}<br></a>
                                     <!-- Product price-->
-                                    $40.00 - $80.00
+                                    ${{d.price}}
                                 </div>
                             </div>
                             <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="margin:auto">
+                                <div class="text-center" style="display:inline-block"><a class="btn btn-outline-dark mt-auto" href="{{d.get_absolute_url}}">View options</a></div>
+                                <div class="text-center" style="display:inline-block"><a class="btn btn-outline-dark mt-auto" href="#"><i class="bi bi-cart-fill"></i></a></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Special Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$20.00</span>
-                                    $18.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Sale Item</h5>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">$50.00</span>
-                                    $25.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Popular Item</h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    $40.00
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
+        {% endif %}
                     <!-- Comments section-->
                     <section class="mb-5">
                         <div class="card bg-light">

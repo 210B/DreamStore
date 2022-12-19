@@ -8,6 +8,7 @@ from django.utils.text import slugify
 from .forms import CommentForm
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+import random
 # Create your views here.
 
 
@@ -100,7 +101,7 @@ class DreamCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
 class DreamList(ListView):
     model = Dream
     ordering = '-pk'
-    paginate_by = 9
+    paginate_by = 8
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(DreamList, self).get_context_data()
@@ -116,7 +117,8 @@ class DreamSearch(DreamList):
 
     def get_queryset(self):
         q = self.kwargs['q']
-        dream_list = Dream.objects.filter(Q(name__contains=q) | Q(producer__name__contains=q) | Q(themes__name__contains=q)).distinct()
+        dream_list = Dream.objects.filter(Q(name__contains=q) | Q(producer__name__contains=q) |
+                                          Q(themes__name__contains=q)).distinct()
         return dream_list
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -126,14 +128,33 @@ class DreamSearch(DreamList):
         return context
 
 
+def my_page(request):
+    comment_list = Comment.objects.filter(author=request.user).order_by('-pk')
+    context = {
+        'comment_list':comment_list,
+    }
+    return render(request, 'dream/my_page.html', context)
+
+
 class DreamDetail(DetailView):
     model = Dream
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dream = get_object_or_404(Dream, pk=self.kwargs['pk'])
+        related_list = Dream.objects.all().order_by('pk')[:4]
+
         context = super(DreamDetail, self).get_context_data()
-        context['producer'] = Producer.objects.all()
+        context['related_list'] = related_list
         context['comment_form'] = CommentForm
         return context
+
+   # def get_context_data(self, pk, *, object_list=None, **kwargs):
+    #    dream = get_object_or_404(Dream, pk=pk)
+     #   context = super(DreamDetail, self, pk).get_context_data()
+      #  context['comment_form'] = CommentForm
+       # return context
+
 
     # 템플릿은 모델명_detail.html : dream_detail.html
     # 매개변수 모델명 : dream
@@ -214,3 +235,4 @@ def home_page(request):
         'dream_list':dream_list,
     }
     return render(request, 'dream/dream_list.html', context)
+
