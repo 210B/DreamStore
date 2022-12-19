@@ -142,7 +142,7 @@ class DreamDetail(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         dream = get_object_or_404(Dream, pk=self.kwargs['pk'])
-        related_list = Dream.objects.all().order_by('pk')[:4]
+        related_list = Dream.objects.all().order_by('-pk')[:4]
 
         context = super(DreamDetail, self).get_context_data()
         context['related_list'] = related_list
